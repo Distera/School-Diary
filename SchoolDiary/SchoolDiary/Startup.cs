@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,7 @@ namespace SchoolDiary
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SchoolDiaryDbContext>(options => options.UseSqlite(_connectionString));
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddControllers();
         }
 
