@@ -26,11 +26,20 @@ namespace SchoolDiary
             services.AddDbContext<SchoolDiaryDbContext>(options => options.UseSqlite(_connectionString));
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddControllers();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SchoolDiaryDbContext dataContext)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "School Diary API V1");
+                options.RoutePrefix = string.Empty;
+            });
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
