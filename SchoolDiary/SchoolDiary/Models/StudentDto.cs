@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace SchoolDiary.Data.Entities
+namespace SchoolDiary.Models
 {
-    public class Student
+    public class StudentDto
     {
-        public int Id { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
 
-        public IEnumerable<Grade> Grades { get; set; }
+        public IEnumerable<int> GradesIds { get; set; }
     }
 }
