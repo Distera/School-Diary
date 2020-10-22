@@ -26,11 +26,11 @@ namespace SchoolDiary.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<StudentDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<StudentMinDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var students = await _dataContext.Students.ToListAsync(cancellationToken);
 
-            return students.Select(student => _mapper.Map<StudentDto>(student));
+            return students.Select(student => _mapper.Map<StudentMinDto>(student));
         }
 
         [HttpPost]
