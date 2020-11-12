@@ -41,6 +41,14 @@ namespace SchoolDiary.Controllers
             await _dataContext.Grades.AddAsync(grade, cancellationToken);
             await _dataContext.SaveChangesAsync(cancellationToken);
         }
+
+        [HttpGet("{id}")]
+        public async Task<GradeDto> GetAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return _mapper.Map<GradeDto>(
+                await _dataContext.Grades.SingleAsync(grade => grade.Id == id, cancellationToken)
+            );
+        }
         
         [HttpPut("{id}")]
         public async Task PutAsync(int id, GradeDto gradeDto, CancellationToken cancellationToken = default)

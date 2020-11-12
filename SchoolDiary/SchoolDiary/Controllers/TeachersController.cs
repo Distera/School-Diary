@@ -57,7 +57,7 @@ namespace SchoolDiary.Controllers
         public async Task<TeacherDto> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _mapper.Map<TeacherDto>(
-                await _dataContext.Teachers.SingleAsync(subject => subject.Id == id, cancellationToken)
+                await _dataContext.Teachers.SingleAsync(teacher => teacher.Id == id, cancellationToken)
             );
         }
 
