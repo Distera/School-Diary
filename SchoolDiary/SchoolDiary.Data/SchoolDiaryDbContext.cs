@@ -16,6 +16,20 @@ namespace SchoolDiary.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Grade>()
+                .HasOne(grade => grade.Student)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            modelBuilder.Entity<Grade>()
+                .HasOne(grade => grade.Subject)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            modelBuilder.Entity<Grade>()
+                .HasOne(grade => grade.Teacher)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<Student>()
                 .HasMany(student => student.Grades)
                 .WithOne(grade => grade.Student)
