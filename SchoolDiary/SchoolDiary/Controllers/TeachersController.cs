@@ -26,11 +26,11 @@ namespace SchoolDiary.Controllers
         }
         
          [HttpGet]
-        public async Task<IEnumerable<TeacherDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TeacherMinDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var teachers = await _dataContext.Teachers.ToListAsync(cancellationToken);
 
-            return teachers.Select(teacher => _mapper.Map<TeacherDto>(teacher));
+            return teachers.Select(teacher => _mapper.Map<TeacherMinDto>(teacher));
         }
 
         [HttpPost]
@@ -42,11 +42,11 @@ namespace SchoolDiary.Controllers
                 FirstName = teacherDto.FirstName,
                 MiddleName = teacherDto.MiddleName,
                 Phone = teacherDto.Phone,                
-                Subjects = await Task.WhenAll(
+                Subjects = (await Task.WhenAll(
                     teacherDto.SubjectsIds.Select(async subjectId =>
                         await _dataContext.Subjects.SingleAsync(subject => subject.Id == subjectId, cancellationToken)
                     )
-                )
+                )).ToList()
             };
 
             await _dataContext.Teachers.AddAsync(teacher, cancellationToken);
@@ -57,25 +57,28 @@ namespace SchoolDiary.Controllers
         public async Task<TeacherDto> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _mapper.Map<TeacherDto>(
-                await _dataContext.Teachers.SingleAsync(teacher => teacher.Id == id, cancellationToken)
+                await _dataContext.Teachers
+                    .Include(teacher => teacher.Subjects)
+                    .SingleAsync(teacher => teacher.Id == id, cancellationToken)
             );
         }
 
         [HttpPut("{id}")]
         public async Task PutAsync(int id, TeacherDto teacherDto, CancellationToken cancellationToken = default)
         {
-            var teacherToUpdate =
-                await _dataContext.Teachers.SingleAsync(teacher => teacher.Id == id, cancellationToken);
+            var teacherToUpdate = await _dataContext.Teachers
+                .Include(teacher => teacher.Subjects)
+                .SingleAsync(teacher => teacher.Id == id, cancellationToken);
 
             teacherToUpdate.LastName = teacherDto.LastName;
             teacherToUpdate.FirstName = teacherDto.FirstName;
             teacherToUpdate.MiddleName = teacherDto.MiddleName;
             teacherToUpdate.Phone = teacherDto.Phone;
-            teacherToUpdate.Subjects = await Task.WhenAll(
+            teacherToUpdate.Subjects = (await Task.WhenAll(
                 teacherDto.SubjectsIds.Select(async subjectId =>
                     await _dataContext.Subjects.SingleAsync(subject => subject.Id == subjectId, cancellationToken)
                 )
-            );
+            )).ToList();
 
             await _dataContext.SaveChangesAsync(cancellationToken);
         }

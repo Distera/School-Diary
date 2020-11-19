@@ -13,5 +13,18 @@ namespace SchoolDiary.Data
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>()
+                .HasMany(student => student.Grades)
+                .WithOne(grade => grade.Student)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(teacher => teacher.Subjects)
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull);
+        }
     }
 }

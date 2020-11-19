@@ -22,7 +22,10 @@ namespace SchoolDiary
                     dto => dto.TeacherId,
                     memberConfiguration => memberConfiguration.MapFrom(grade => grade.Teacher.Id)
                 );
+            CreateMap<Grade, GradeMinDto>();
+                
             CreateMap<Subject, SubjectDto>();
+            CreateMap<Subject, SubjectMinDto>();
 
             CreateMap<Student, StudentDto>()
                 .ForMember(
@@ -31,6 +34,7 @@ namespace SchoolDiary
                         publication => publication.Grades.Select(grade => grade.Id)
                     )
                 );
+            CreateMap<Student, StudentMinDto>();
 
             CreateMap<Teacher, TeacherDto>()
                 .ForMember(
@@ -39,6 +43,7 @@ namespace SchoolDiary
                         publication => publication.Subjects.Select(subject => subject.Id)
                     )
                 );
+            CreateMap<Teacher, TeacherMinDto>();
         }
     }
 }

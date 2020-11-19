@@ -1,8 +1,8 @@
 ﻿namespace SchoolDiary.Models
 {
-    public class SubjectDto
+    public class SubjectMinDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

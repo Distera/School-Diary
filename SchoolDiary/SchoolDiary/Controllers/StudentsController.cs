@@ -41,11 +41,11 @@ namespace SchoolDiary.Controllers
                 LastName = studentDto.LastName,
                 FirstName = studentDto.FirstName,
                 MiddleName = studentDto.MiddleName,
-                Grades = await Task.WhenAll(
+                Grades = (await Task.WhenAll(
                     studentDto.GradesIds.Select(async gradeId =>
                         await _dataContext.Grades.SingleAsync(grade => grade.Id == gradeId, cancellationToken)
                     )
-                )
+                )).ToList()
             };
 
             await _dataContext.Students.AddAsync(student, cancellationToken);
@@ -56,24 +56,27 @@ namespace SchoolDiary.Controllers
         public async Task<StudentDto> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _mapper.Map<StudentDto>(
-                await _dataContext.Students.SingleAsync(student => student.Id == id, cancellationToken)
+                await _dataContext.Students
+                    .Include(student => student.Grades)
+                    .SingleAsync(student => student.Id == id, cancellationToken)
             );
         }
 
         [HttpPut("{id}")]
         public async Task PutAsync(int id, StudentDto studentDto, CancellationToken cancellationToken = default)
         {
-            var studentToUpdate =
-                await _dataContext.Students.SingleAsync(student => student.Id == id, cancellationToken);
+            var studentToUpdate =await _dataContext.Students
+                .Include(student => student.Grades)
+                .SingleAsync(student => student.Id == id, cancellationToken);
 
             studentToUpdate.LastName = studentDto.LastName;
             studentToUpdate.FirstName = studentDto.FirstName;
             studentToUpdate.MiddleName = studentDto.MiddleName;
-            studentToUpdate.Grades = await Task.WhenAll(
+            studentToUpdate.Grades = (await Task.WhenAll(
                 studentDto.GradesIds.Select(async gradeId =>
                     await _dataContext.Grades.SingleAsync(grade => grade.Id == gradeId, cancellationToken)
                 )
-            );
+            )).ToList();
 
             await _dataContext.SaveChangesAsync(cancellationToken);
         }

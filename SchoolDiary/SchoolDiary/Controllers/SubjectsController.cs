@@ -26,11 +26,11 @@ namespace SchoolDiary.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<SubjectDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<SubjectMinDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var subjects = await _dataContext.Subjects.ToListAsync(cancellationToken);
 
-            return subjects.Select(subject => _mapper.Map<SubjectDto>(subject));
+            return subjects.Select(subject => _mapper.Map<SubjectMinDto>(subject));
         }
 
         [HttpGet("{id}")]
@@ -48,6 +48,7 @@ namespace SchoolDiary.Controllers
                 await _dataContext.Subjects.SingleAsync(subject => subject.Id == id, cancellationToken);
 
             subjectToUpdate.Name = subjectDto.Name;
+            subjectToUpdate.Description = subjectDto.Description;
 
             await _dataContext.SaveChangesAsync(cancellationToken);
         }
@@ -58,6 +59,7 @@ namespace SchoolDiary.Controllers
             var subject = new Subject
             {
                 Name = subjectDto.Name,
+                Description = subjectDto.Description
             };
 
             await _dataContext.Subjects.AddAsync(subject, cancellationToken);

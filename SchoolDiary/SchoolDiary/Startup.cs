@@ -39,7 +39,7 @@ namespace SchoolDiary
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "School Diary API V1");
                 options.RoutePrefix = string.Empty;
             });
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -47,6 +47,7 @@ namespace SchoolDiary
 
             dataContext.Database.EnsureCreated();
 
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
