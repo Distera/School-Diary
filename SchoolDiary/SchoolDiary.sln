@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolDiary", "SchoolDiary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolDiary.Data", "SchoolDiary.Data\SchoolDiary.Data.csproj", "{25EB88F5-AFBF-41A7-A3EF-650B65A4A911}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolDiary.Tests", "SchoolDiary.Tests\SchoolDiary.Tests.csproj", "{7B4F3E96-9DA4-476C-9C3A-6271F68E693A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{25EB88F5-AFBF-41A7-A3EF-650B65A4A911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25EB88F5-AFBF-41A7-A3EF-650B65A4A911}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25EB88F5-AFBF-41A7-A3EF-650B65A4A911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B4F3E96-9DA4-476C-9C3A-6271F68E693A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B4F3E96-9DA4-476C-9C3A-6271F68E693A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B4F3E96-9DA4-476C-9C3A-6271F68E693A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B4F3E96-9DA4-476C-9C3A-6271F68E693A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
